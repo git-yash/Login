@@ -1,39 +1,31 @@
 import React from 'react';
-import {Button, Container, Root, View} from 'native-base';
-import {Image, Text} from 'react-native';
+import {Root} from 'native-base';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import StartScreen from './screens/StartScreen/StartScreen';
+import Signup from './screens/SignupScreen/Signup';
+import Login from './screens/LoginScreen/Login';
 
 const App = () => {
-  return (
-    <NavigationContainer>
-      <Root>
-        <Container>
-          <View style={{flex: 7, backgroundColor: '#CFF6FF'}}>
-            <Image
-              style={{
-                width: 100,
-                height: 100,
-                alignSelf: 'center',
-                marginTop: 175,
-              }}
-              source={require('./assets/images/img.png')}
-            />
-          </View>
-          <Button full style={{flex: 1, backgroundColor: '#e9b558'}}>
-            <Text style={{fontWeight: 'bold', fontSize: 36, color: 'white'}}>
-              Log In
-            </Text>
-          </Button>
-          <Button full style={{flex: 1, backgroundColor: '#38BC73'}}>
-            <Text style={{fontWeight: 'bold', fontSize: 36, color: 'white'}}>
-              Sign Up
-            </Text>
-          </Button>
-        </Container>
-      </Root>
-    </NavigationContainer>
-  );
+  const Stack = createStackNavigator();
+  const LoginStack = () => {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name={'Back'}
+            component={StartScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name={'Log In'} component={Login} />
+          <Stack.Screen name={'Sign Up'} component={Signup} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  };
+
+  return <Root>{LoginStack()}</Root>;
 };
 
 export default App;
