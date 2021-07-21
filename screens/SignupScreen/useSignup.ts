@@ -1,36 +1,31 @@
 import {useState} from 'react';
-import {Toast} from 'native-base';
 import Users from '../../models/Users';
 import User from '../../models/User';
+import Util from '../../Util/Util';
 
 const useSignup = ({navigation}) => {
   const [emailText, setEmailText] = useState<string>('');
   const [passwordText, setPasswordText] = useState<string>('');
   const [confirmPasswordText, setConfirmPasswordText] = useState<string>('');
 
-  const showToast = (message: string) => {
-    Toast.show({
-      text: message,
-      buttonText: 'Ok',
-      duration: 10000,
-      type: 'danger',
-    });
-  };
-
   const validateUser = () => {
     if (emailText !== '' || passwordText !== '' || confirmPasswordText !== '') {
-      if (passwordText === confirmPasswordText) {
-        if (!Users.doesUserExist(emailText)) {
-          Users.users.push(new User(emailText, passwordText));
-          navigation.navigate('Log In');
+      if (Util.isValidEmail(emailText)) {
+        if (passwordText === confirmPasswordText) {
+          if (!Users.doesUserExist(emailText)) {
+            Users.users.push(new User(emailText, passwordText));
+            navigation.navigate('Log In');
+          } else {
+            Util.showToast('This account already exists!');
+          }
         } else {
-          showToast('This account already exists!');
+          Util.showToast('Confirm password does not match!');
         }
       } else {
-        showToast('Confirm password does not match!');
+        Util.showToast('Invalid email');
       }
     } else {
-      showToast('Please fill in all inputs');
+      Util.showToast('Please fill in all inputs');
     }
   };
 

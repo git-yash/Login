@@ -5,13 +5,8 @@ import styles from './Login.style';
 import useLogin from './useLogin';
 
 const Login = ({navigation}) => {
-  const {
-    setEmailText,
-    setPasswordText,
-    isValidEmail,
-    validateLogin,
-    emailText,
-  } = useLogin(navigation);
+  const {setEmailText, setPasswordText, validateLogin} = useLogin(navigation);
+
   return (
     <Container>
       <View style={styles.logoView}>
@@ -21,10 +16,7 @@ const Login = ({navigation}) => {
         />
       </View>
       <Form style={styles.loginForm}>
-        <Item
-          floatingLabel
-          style={styles.loginTextfield}
-          error={!isValidEmail(emailText)}>
+        <Item floatingLabel style={styles.loginTextfield}>
           <Label>Email</Label>
           <Input
             onChangeText={s => setEmailText(s)}
